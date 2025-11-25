@@ -1,0 +1,76 @@
+/* Reset e Layout Básico */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.gallery-header {
+    background-color: #0078d4;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.loading-message, .error-message {
+    text-align: center;
+    margin-top: 50px;
+    color: #d44949;
+}
+
+/* Estilo da Lista de Obras (Galeria) */
+.obras-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Estilo do Card Individual */
+.obra-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Largura fixa para desktop */
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    text-align: left;
+}
+
+.obra-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.obra-image {
+    width: 100%;
+    height: 200px; /* Altura fixa para padronizar */
+    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+    border-bottom: 1px solid #eee;
+}
+
+.obra-details {
+    padding: 15px;
+}
+
+.obra-title {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #0078d4;
+}
+
+.obra-artist {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.obra-description {
+    font-size: 0.9em;
+    color: #666;
+}
