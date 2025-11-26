@@ -1,0 +1,43 @@
+name: Deploy Azure Function (Backend)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**' # Gatilho apenas se houver mudanças na pasta backend
+
+env:
+
+  AZURE_FUNCTION_APP_NAME: func-galeria 
+  AZURE_FUNCTION_PACKAGE_PATH: 'backend' 
+  PYTHON_VERSION: '3.12' 
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: 'Resolve project dependencies'
+        shell: bash
+        run: |
+          # O Static Web App nao instala pyodbc no backend, então fazemos aqui.
+          pip install --upgrade pip
+          pip install -r ${{ env.AZURE_FUNCTION_PACKAGE_PATH }}/requirements.txt
+
+      - name: 'Azure Login & Deploy'
+        uses: azure/functions-action@v1
+        id: deploy
+        with:
+          app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
+          package: ${{ env.AZURE_FUNCTION_PACKAGE_PATH }}
+        
+          publish-profile: ${{ secrets.AZURE_FUNCTION_PUBLISH_PROFILE }}
