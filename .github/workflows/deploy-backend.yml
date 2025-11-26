@@ -47,4 +47,4 @@ jobs:
           app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
           package: ${{ env.AZURE_FUNCTION_PACKAGE_PATH }}
           # Usa o Secret ORIGINAL criado a partir do XML da Azure Function.
-          publish-profile: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          publish-profile: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_NICE_TREE_06FC1C60F }}
