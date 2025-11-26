@@ -45,7 +45,7 @@ function App() {
   return (
     <div className="gallery-container">
       <header className="gallery-header">
-        <h1>🖼️ Galeria de Artes Online (React + Azure)</h1>
+        <h1>🖼️ Galeria de Artes Online </h1>
       </header>
       <div className="obras-list">
         {/* Mapeia a lista de obras e cria um card para cada uma */}
