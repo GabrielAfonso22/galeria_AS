@@ -5,10 +5,10 @@ import azure.functions as func
 import pyodbc 
 
 # Cria a instância da Function App
-app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
+app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
 # Define o endpoint HTTP
-@app.route(route="GetObrasFunction")
+@app.route(route="GetObrasFunction", auth_level=func.AuthLevel.ANONYMOUS)
 def GetObrasFunction(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
