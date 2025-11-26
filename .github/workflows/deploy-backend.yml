@@ -1,0 +1,52 @@
+name: Deploy Azure Function (Backend)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**' # Dispara apenas se houver mudanças na pasta backend
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTION_APP_NAME: func-galeria # Nome do seu Function App na Azure
+  AZURE_FUNCTION_PACKAGE_PATH: 'backend' # Pasta real no seu repositório
+  PYTHON_VERSION: '3.12'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 1. Instalar dependências ODBC para pyodbc (Linux/Ubuntu)
+      - name: Install ODBC Driver Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unixodbc-dev
+
+      # 2. Setup Python
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      # 3. Instalar dependências Python (roda na pasta backend)
+      - name: Install dependencies
+        working-directory: ${{ env.AZURE_FUNCTION_PACKAGE_PATH }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Deploy para Azure Function App
+      # Este passo usa o Secret que você já tem no GitHub
+      - name: Deploy to Azure Function App
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ env.AZURE_FUNCTION_APP_NAME }}
+          package: ${{ env.AZURE_FUNCTION_PACKAGE_PATH }}
+          # SECRET DEVE CONTER O XML DO PERFIL DE PUBLICAÇÃO
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+          # Mantemos o build na Azure para otimizar o deploy
+          scm-do-build-during-deployment: true
